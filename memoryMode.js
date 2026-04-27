@@ -90,7 +90,7 @@ function renderSequence(){
 function showSequence(){
     mode = "visual";
     document.getElementsByClassName("js-feedback")[0].innerHTML = "";
-    generateOptions();
+    generateOptions(correctAnswer);
 }
 
 function player(){
@@ -98,30 +98,28 @@ function player(){
     controlarMemoria();
 }
 
-function generateOptions(){
-    var options = [correctAnswer];
+function generateOptions(correctValue){
+    var options = [correctValue];
 
     while(options.length < 4){
-        var fake = correctAnswer + Math.floor(Math.random()*10) - 5;
-        if(!options.includes(fake)) options.push(fake);
-    }
+        var fake = correctValue + Math.floor(Math.random()*10) - 5;
 
-    for(var i=options.length-1;i>0;i--){
-        var j = Math.floor(Math.random()*(i+1));
-        var t = options[i];
-        options[i] = options[j];
-        options[j] = t;
+        if(!options.includes(fake)){
+            options.push(fake);
+        }
     }
 
     var html = "";
-    for(var i=0;i<options.length;i++)
+    for(var i=0;i<options.length;i++){
         html += "<button class='js-option' data='" + options[i] + "'>" + options[i] + "</button>";
+    }
 
     document.getElementsByClassName("js-answers")[0].innerHTML = html;
 
     var buttons = document.getElementsByClassName("js-option");
-    for(var i=0;i<buttons.length;i++)
+    for(var i=0;i<buttons.length;i++){
         buttons[i].addEventListener("click", checkAnswer);
+    }
 }
 
 function controlarMemoria(){
